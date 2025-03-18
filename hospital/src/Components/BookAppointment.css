@@ -1,0 +1,211 @@
+.Book-container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.BookAppointment h2 {
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 1.5em;
+  color: #333;
+}
+
+.book-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 25px 20px;
+  border-radius: 12px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.form-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  width: 100%;
+}
+
+.input-pair {
+  display: flex;
+  flex-direction: column;
+  width: 48%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.book-form label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.book-form input,
+.book-form select,
+.book-form textarea {
+  width: 100%;
+  padding: 0.5em;
+  font-size: 1.2em;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+  background: white;
+}
+
+.book-form textarea {
+  min-height: 3em;
+  resize: vertical;
+}
+
+.book-form input:focus,
+.book-form select:focus,
+.book-form textarea:focus {
+  border-color: #007bff;
+  box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.4);
+  outline: none;
+}
+
+.doctor-list {
+  list-style: none;
+  padding: 0;
+  margin: 5px 0 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  max-height: 150px;
+  overflow-y: auto;
+  background: white;
+}
+
+.doctor-list li {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+  transition: background 0.2s ease-in-out;
+}
+
+.doctor-list li:last-child {
+  border-bottom: none;
+}
+
+.doctor-list li:hover {
+  background: #f0f0f0;
+}
+
+input[type="time"] {
+  text-align: center;
+}
+
+.warning-message {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.book-form button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 14em;
+  height: 3em;
+  padding: 10px;
+  background: linear-gradient(90deg, #007bff, #0056b3);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 17px;
+  transition: all 0.3s ease-in-out;
+}
+
+.book-form button:hover {
+  background: linear-gradient(90deg, #0056b3, #003d82);
+  transform: scale(1.05);
+}
+
+.book-form button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.modal-content h3 {
+  color: green;
+}
+
+.modal-content button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 986px) {
+  .Appointment1-container {
+    width: 100%;
+  }
+  .Book-container {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    padding: 0;
+  }
+  .Book-container.book-form {
+    padding: 20px;
+    margin: 0;
+  }
+
+  .form-group {
+    flex-direction: column;
+  }
+
+  .input-pair {
+    width: 100%;
+  }
+
+  .book-form button {
+    width: 100%;
+  }
+}

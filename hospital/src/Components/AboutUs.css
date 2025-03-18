@@ -1,0 +1,178 @@
+.aboutus {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.1em;
+  background: linear-gradient(to right, #2c3e50, #3498db);
+  color: white;
+  font-weight: bold;
+}
+
+.about-container {
+  padding: 1em 5em 5em 5em;
+  background-color: #f4f4f4;
+}
+.aboutus-home {
+  width: 100%;
+  height: 40px;
+  margin: 20px 0;
+  font-size: 1rem;
+  color: blue;
+  border-radius: 5px;
+}
+.aboutus-home i {
+  transition: transform 0.5s ease;
+}
+.aboutus-home i:hover {
+  transform: scale(1.5);
+}
+.values-list strong {
+  color: #800020;
+}
+.content-heading {
+  font-size: 2em;
+  font-weight: normal;
+  padding-bottom: 0.2em;
+  margin-bottom: 0.2em;
+  border-bottom: 1px solid #3498db;
+  color: #008080;
+}
+.overview {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  align-items: center;
+}
+.overview img {
+  width: 100%;
+  margin-top: 40px;
+  height: 300px;
+  border-radius: 2em;
+}
+
+.overview p {
+  font-size: 1.1em;
+}
+.values-container {
+  padding: 2.5em 0;
+}
+
+.values-container ul li,
+.patient_container ul li,
+.awards_container ul li {
+  margin-bottom: 8px;
+  font-size: 1.1em;
+}
+.values-container ul,
+.patient_container ul,
+.awards_container ul {
+  padding: 1em 0;
+}
+.facilities-images {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: nowrap;
+  padding: 2.5em 0;
+}
+.facility {
+  text-align: center;
+  max-width: 200px;
+}
+.facility img {
+  width: auto;
+  max-width: 200px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.facility p {
+  margin-top: 5px;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+@media (max-width: 1024px) {
+  .aboutus-home {
+    font-size: 1.3em !important;
+  }
+  .about-container {
+    padding-left: 3em;
+    padding-right: 2em;
+  }
+
+  .overview {
+    grid-template-columns: 1fr;
+  }
+
+  .overview img {
+    height: auto;
+    max-width: 650px;
+    max-height: 400px;
+  }
+
+  .facilities-images {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .facility {
+    max-width: 180px;
+  }
+
+  .facility img {
+    height: 130px;
+  }
+}
+
+@media (max-width: 768px) {
+  .aboutus {
+    height: 120px;
+    font-size: 1.8em;
+  }
+
+  .about-container {
+    padding-left: 2em;
+    padding-right: 1em;
+  }
+
+  .aboutus-home {
+    font-size: 1em;
+    height: auto;
+  }
+
+  .content-heading {
+    font-size: 1.8em;
+  }
+
+  .overview img {
+    height: auto;
+    max-height: 200px;
+  }
+
+  .overview p {
+    font-size: 1em;
+  }
+
+  .facilities-images {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .facility {
+    max-width: 100%;
+  }
+
+  .facility img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .values-container ul li,
+  .patient_container ul li,
+  .awards_container ul li {
+    font-size: 1em;
+  }
+}

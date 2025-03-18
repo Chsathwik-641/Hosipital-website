@@ -1,0 +1,47 @@
+.Appointment-container {
+  max-width: 100%;
+  margin: 20px auto;
+  padding: 20px;
+  /* background-color: #f8f9fa; */
+  border-radius: 10px;
+}
+.op p {
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: red;
+  margin-bottom: 1em;
+}
+.forms-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  transition: opacity 0.5s ease-in-out;
+  padding: 2em 6em 6em;
+}
+
+.book-appointment,
+.update-appointment {
+  flex: 1;
+  background: white;
+  border-radius: 10px;
+}
+.fade-in {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .forms-container {
+    flex-direction: column;
+    margin-top: 2em;
+  }
+  .Appointment-container p {
+    font-size: 1em;
+  }
+}

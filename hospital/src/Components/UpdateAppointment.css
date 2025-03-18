@@ -1,0 +1,215 @@
+.search-container {
+  padding-top: 20px;
+}
+.Appo h2 {
+  font-size: 2em;
+  text-align: center;
+  margin-bottom: 1.5em;
+}
+
+.search-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.15);
+  border: 1px solid #ddd;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+}
+
+.search-form label {
+  font-size: 16px;
+  font-weight: 600;
+  color: black;
+  margin-bottom: 5px;
+}
+
+.search-form input {
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  border: 2px solid #ccc;
+  border-radius: 6px;
+  transition: all 0.3s ease-in-out;
+}
+
+.search-form input:focus {
+  border-color: #007bff;
+  box-shadow: 0px 0px 10px rgba(0, 123, 255, 0.4);
+  outline: none;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.search-form button,
+.appointment-details button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 10em;
+  height: 3em;
+  padding: 12px 20px;
+  background: linear-gradient(90deg, #007bff, #0056b3);
+  border: 2px solid #007bff;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+}
+
+.search-form button:hover,
+.appointment-details button:hover {
+  background: linear-gradient(90deg, #0056b3, #003d82);
+  transform: scale(1.07);
+}
+
+.delete-btn {
+  background: linear-gradient(90deg, #dc3545, #c82333);
+}
+
+.delete-btn:hover {
+  background: linear-gradient(90deg, #c82333, #a71d2a);
+}
+
+.cancel-btn {
+  background: linear-gradient(90deg, #6c757d, #5a6268);
+}
+
+.cancel-btn:hover {
+  background: linear-gradient(90deg, #5a6268, #495057);
+}
+
+/* Appointment Details */
+.appointment-details,
+.appointment-edit {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  padding-bottom: 1.5em;
+  padding: 0.5em;
+}
+
+.appointment-heading,
+.heading-edit {
+  padding: 1em;
+  text-align: center;
+  border-bottom: 2px solid #28a745;
+}
+.appointment-paragraph {
+  padding: 2em;
+  padding-left: 3em;
+  margin-left: 0.5em;
+  color: #00796b;
+}
+
+.appointment-paragraph p {
+  font-size: 1.1em;
+  margin-bottom: 12px;
+  font-weight: 500;
+  line-height: 1.8;
+}
+
+.appointment-paragraph strong {
+  color: #d35400;
+}
+.appointment-paragraph p strong {
+  width: 180px;
+  display: inline-block;
+  text-align: left;
+  margin-right: 15px;
+}
+
+.appointment-edit {
+  padding: 1.5em;
+  border-radius: 1em;
+  margin: auto;
+}
+.update-form {
+  background: white;
+  padding: 2em;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+}
+
+.update-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.update-form label {
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.3em;
+}
+
+.update-form input {
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border 0.3s ease-in-out;
+  width: 100%;
+}
+
+.update-form input:focus {
+  border-color: #28a745;
+}
+
+.update-success p,
+.delete-success p {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.2em;
+  padding: 1em;
+}
+.home-link {
+  border: 1px solid black;
+  width: 8em;
+  border-radius: 2em;
+  margin: 0 auto;
+  background: linear-gradient(90deg, #007bff, #0056b3);
+  border: 2px solid #007bff;
+  transition: all 0.3s ease-in-out;
+}
+.home-link p {
+  font-size: 0.9em;
+  color: #ffffff;
+}
+.home-link:hover {
+  background: linear-gradient(90deg, #0056b3, #003d82);
+  transform: scale(1.07);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .update-appointment-container,
+  .appointment-details {
+    width: 100%;
+    padding: 2em;
+  }
+
+  .button-container {
+    flex-direction: column;
+    margin: 0 auto;
+  }
+}

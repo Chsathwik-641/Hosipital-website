@@ -1,0 +1,102 @@
+.feedback-container {
+  padding: 0 6em 6em;
+}
+
+.feedback-container form {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  max-width: 40%;
+  margin: 1em auto;
+  padding: 2em;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  border-radius: 1em;
+}
+
+.feedback-container label {
+  font-weight: normal;
+  margin-bottom: 5px;
+  display: block;
+}
+.required {
+  color: red;
+  margin-left: 5px;
+}
+
+.feedback-container input,
+.feedback-container textarea,
+.feedback-container select {
+  padding: 0.5em;
+  font-size: 1em;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+}
+
+.feedback-container select {
+  background-color: white;
+  cursor: pointer;
+}
+.feedback-container textarea {
+  resize: vertical;
+  height: 80px;
+}
+
+.feedback-form input:focus {
+  border-color: #007bff;
+  box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.4);
+  outline: none;
+}
+
+.feedback-container button {
+  width: 100%;
+  max-width: 200px;
+  margin: 1em auto 0;
+  display: block;
+  border-radius: 10px;
+  padding: 1em 1.3em;
+  background-color: #2ecc71;
+  border: none;
+  color: white;
+}
+.feedback-container button:hover {
+  background-color: white;
+  border: 0.5px solid #2ecc71;
+  color: black;
+}
+.feedback-error {
+  color: red;
+  text-align: center;
+  margin-bottom: 10px;
+}
+.feedback-message {
+  color: green;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 986px) {
+  .feedback-container {
+    width: 100%;
+    padding: 1em;
+  }
+  .feedback-container form {
+    max-width: 100%;
+  }
+
+  .feedback-heading h2 {
+    font-size: 2em;
+  }
+  .feedback-form label {
+    font-size: 1em;
+  }
+  .feedback-form input {
+    font-size: 0.9em;
+  }
+
+  .feedback-form button {
+    font-size: 0.9em;
+    padding: 0.6em 1em;
+  }
+}

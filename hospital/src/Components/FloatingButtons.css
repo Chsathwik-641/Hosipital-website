@@ -1,0 +1,58 @@
+.floating-buttons {
+  position: fixed;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 1000;
+}
+
+.appointment-btn,
+.whatsapp-btn,
+.floating-buttons button {
+  color: white;
+  padding: 10px 1px;
+  text-decoration: none;
+  text-align: center;
+  transition: 0.3s ease;
+  display: inline-block;
+  border-radius: 1em;
+  width: 120px !important;
+  cursor: pointer;
+}
+.appointment-btn {
+  width: 120px !important;
+  background-color: #007bff;
+}
+
+.whatsapp-btn {
+  background-color: transparent;
+  transition: transform 0.5s ease;
+  margin: 0 auto;
+}
+.whatsapp-btn img {
+  width: 2.5em;
+}
+.floating-buttons .floating-call {
+  background-color: #212529;
+  border: none;
+}
+.floating-buttons button:hover {
+  background-color: darkcyan;
+  color: black;
+}
+.appointment-btn:hover {
+  background-color: #0056b3;
+}
+
+.whatsapp-btn:hover {
+  transform: scale(1.5);
+}
+
+@media (max-width: 768px) {
+  .floating-buttons {
+    display: none;
+  }
+}

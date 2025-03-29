@@ -120,7 +120,6 @@ const FeedbackForm = () => {
         <input
           type="text"
           name="name"
-          placeholder="Your Name"
           value={formData.name}
           onChange={handleChange}
           className="feedback-input"
@@ -131,7 +130,6 @@ const FeedbackForm = () => {
         <input
           type="text"
           name="contact"
-          placeholder="Contact Number"
           value={formData.contact}
           onChange={handleChange}
           className="feedback-input"
@@ -142,7 +140,6 @@ const FeedbackForm = () => {
         <input
           type="email"
           name="email"
-          placeholder="Email"
           value={formData.email}
           onChange={handleChange}
           className="feedback-input"
@@ -189,7 +186,6 @@ const FeedbackForm = () => {
         </label>
         <textarea
           name="comments"
-          placeholder="Comments"
           value={formData.comments}
           onChange={handleChange}
           className="feedback-input"

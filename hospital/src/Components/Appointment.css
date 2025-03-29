@@ -2,7 +2,6 @@
   max-width: 100%;
   margin: 20px auto;
   padding: 20px;
-  /* background-color: #f8f9fa; */
   border-radius: 10px;
 }
 .op p {
@@ -40,6 +39,7 @@
   .forms-container {
     flex-direction: column;
     margin-top: 2em;
+    padding: 0;
   }
   .Appointment-container p {
     font-size: 1em;

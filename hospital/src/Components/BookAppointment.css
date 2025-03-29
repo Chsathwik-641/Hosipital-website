@@ -181,7 +181,6 @@ input[type="time"] {
   cursor: pointer;
 }
 
-/* Responsive */
 @media (max-width: 986px) {
   .Appointment1-container {
     width: 100%;
@@ -195,6 +194,10 @@ input[type="time"] {
   .Book-container.book-form {
     padding: 20px;
     margin: 0;
+  }
+  .book-form {
+    width: 100%;
+    padding: 10px 15px;
   }
 
   .form-group {

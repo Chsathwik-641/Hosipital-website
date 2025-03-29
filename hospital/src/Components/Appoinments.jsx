@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import BookAppointment from "./BookAppointment";
 import UpdateAppointment from "./UpdateAppointment";
 import "./Appointment.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
 
 const Appointments = () => {
   const [searchedAppointment, setSearchedAppointment] = useState(null);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const alertPops = useRef(false);
+  useEffect(() => {
+    if (!user && !alertPops.current) {
+      alert("You must be logged in to seacrh an appointment.");
+      alertPops.current = true;
+      navigate("/login");
+    }
+  }, [user, navigate]);
 
   return (
     <div className="Appointment-container">
@@ -15,9 +26,7 @@ const Appointments = () => {
         </NavLink>{" "}
         | Appointment Schedule
       </div>
-      {/* <div className="op">
-        <p>OP timings is from 9:00am to 1:00pm</p>
-      </div> */}
+
       {!searchedAppointment ? (
         <div className="forms-container fade-in">
           <div className="book-appointment">

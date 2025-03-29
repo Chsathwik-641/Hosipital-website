@@ -1,7 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "./FloatingButtons.css"; // Add styles here
-
+import "./FloatingButtons.css";
 const FloatingButtons = () => {
   return (
     <div className="floating-buttons">

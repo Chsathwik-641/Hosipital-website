@@ -1,7 +1,6 @@
 .home-welcome {
   text-align: center;
   padding: 30px;
-  /* background: linear-gradient(to left, #f0f8ff, #c3a0ff); */
   color: #333333;
   border-radius: 1em;
 }
@@ -131,7 +130,6 @@
   transform: scale(0.98);
 }
 
-/* Popup Container */
 .popup {
   position: fixed;
   top: 50%;

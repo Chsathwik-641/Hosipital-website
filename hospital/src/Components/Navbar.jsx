@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "./navbar.css";
+import { AuthContext } from "./AuthContext";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useContext(AuthContext);
+  const handleLogout = () => {
+    if (window.confirm("Are you sure you want to log out?")) {
+      logout();
+    }
+  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -32,9 +39,23 @@ const Navbar = () => {
         <NavLink to="/enquiry" onClick={() => setIsOpen(false)}>
           Enquiry
         </NavLink>
-        <NavLink to="/Feed_back" onClick={() => setIsOpen(false)}>
-          Feed back
+        <NavLink to="/feed_back" onClick={() => setIsOpen(false)}>
+          Feedback
         </NavLink>
+        {user ? (
+          <span className="logout-links" onClick={handleLogout}>
+            Logout
+          </span>
+        ) : (
+          <>
+            <NavLink to="/login" onClick={() => setIsOpen(false)}>
+              Login
+            </NavLink>
+            <NavLink to="/register" onClick={() => setIsOpen(false)}>
+              Register
+            </NavLink>
+          </>
+        )}
       </div>
       <div className="emergency">
         <div>

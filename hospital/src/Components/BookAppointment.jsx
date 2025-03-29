@@ -10,7 +10,7 @@ const BookAppointment = () => {
   const [warningMessage, setWarningMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [appointmentId, setAppointmentId] = useState(null);
-  const [showDoctorList, setShowDoctorList] = useState(false); // Hide doctors list initially
+  const [showDoctorList, setShowDoctorList] = useState(false);
 
   const [formData, setFormData] = useState({
     first_name: "",
@@ -121,7 +121,9 @@ const BookAppointment = () => {
       setSearchQuery("");
     } catch (error) {
       console.error("Error Response:", error.response?.data);
-      alert(error.response?.data?.error || "Error booking appointment");
+      alert(
+        error.response?.data?.error || "Failed to book appointment. Try again."
+      );
     }
   };
 
@@ -238,7 +240,6 @@ const BookAppointment = () => {
           />
         </div>
 
-        {/* Doctor Search Section */}
         <div className="form-group full-width">
           <label htmlFor="doctor_search">
             Doctor Name<span className="required">*</span> :

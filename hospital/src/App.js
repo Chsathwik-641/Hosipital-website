@@ -8,38 +8,44 @@ import Navbar from "./Components/Navbar";
 import AboutUs from "./Components/AboutUs";
 import Footer from "./Components/Footer";
 import Feedback from "./Components/Feedback";
-import { NavLink } from "react-router-dom";
+import { AuthProvider } from "./Components/AuthContext";
+import Login from "./Components/Login";
+import Register from "./Components/Register";
 
-function App() {
-  const Layout = () => (
+const Layout = () => {
+  return (
     <>
       <Navbar />
       <main className="main-content">
-        {" "}
         <Outlet />
       </main>
       <Footer />
     </>
   );
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Layout />,
-      children: [
-        { path: "/", element: <Home /> },
-        { path: "/about_us", element: <AboutUs /> },
-        { path: "/appointment", element: <Appoinments /> },
-        { path: "/our_doctors", element: <Doctors /> },
-        { path: "/enquiry", element: <Contact /> },
-        { path: "/feed_back", element: <Feedback /> },
-      ],
-    },
-  ]);
+};
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      { path: "/", element: <Home /> },
+      { path: "/about_us", element: <AboutUs /> },
+      { path: "/appointment", element: <Appoinments /> },
+      { path: "/our_doctors", element: <Doctors /> },
+      { path: "/enquiry", element: <Contact /> },
+      { path: "/feed_back", element: <Feedback /> },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
+    ],
+  },
+]);
+
+function App() {
   return (
-    <div className="App">
+    <AuthProvider>
       <RouterProvider router={router} />
-    </div>
+    </AuthProvider>
   );
 }
 

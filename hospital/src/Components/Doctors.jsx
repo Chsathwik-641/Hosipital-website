@@ -11,7 +11,7 @@ const Doctors = () => {
       .then((res) => res.json())
       .then((data) => {
         setDoctors(data);
-        setFilteredDoctors(data); // Initially show all doctors
+        setFilteredDoctors(data);
       })
       .catch((error) => console.error("Error fetching doctors data", error));
   }, []);
@@ -19,7 +19,7 @@ const Doctors = () => {
   // Handle search button click
   const handleSearch = () => {
     if (searchTerm.trim() === "") {
-      setFilteredDoctors(doctors); // Show all if search is empty
+      setFilteredDoctors(doctors);
     } else {
       setFilteredDoctors(
         doctors.filter(
@@ -31,7 +31,6 @@ const Doctors = () => {
     }
   };
 
-  // Handle input change
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
@@ -50,7 +49,6 @@ const Doctors = () => {
       </div>
       <h2>Doctors List</h2>
 
-      {/* Search Box and Button */}
       <div className="doctor-search">
         <input
           type="text"
@@ -64,7 +62,6 @@ const Doctors = () => {
         </button>
       </div>
 
-      {/* Doctors List */}
       <div className="doctors-list">
         {filteredDoctors.length > 0 ? (
           filteredDoctors.map((doc) => (

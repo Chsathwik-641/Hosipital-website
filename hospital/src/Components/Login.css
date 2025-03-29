@@ -1,0 +1,129 @@
+.login-container {
+  padding: 0 6em 6em;
+}
+.login-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  max-width: 40%;
+  margin: 1em auto 2em;
+  padding: 2em;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  border-radius: 1em;
+}
+
+.login-form label {
+  font-size: 1.1em;
+  margin-bottom: 0.3em;
+  color: #333;
+  display: block;
+  text-align: left;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.login-form input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.login-form div {
+  width: 100%;
+  margin-bottom: 0.5em;
+  display: flex;
+  flex-direction: column;
+}
+
+.password-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.password-container input {
+  width: 100%;
+  padding: 10px 40px 10px 10px;
+  font-size: 1em;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.password-container i {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.3em;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.3s;
+}
+
+.password-container i:hover {
+  color: #007bff;
+}
+
+.login-form p {
+  color: red;
+  font-size: 0.9em;
+  margin-bottom: 1em;
+}
+
+.login-form button {
+  padding: 5px;
+  font-size: 1.1em;
+  background: #007bff;
+  color: white;
+  border: none;
+  width: 7em;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 auto;
+  transition: background 0.3s;
+  display: block;
+  margin: 1em auto;
+  text-align: center;
+}
+
+.login-form button:hover {
+  background: #0056b3;
+}
+
+@media (max-width: 986px) {
+  .login-container {
+    width: 100%;
+    padding: 1em;
+  }
+  .login-form {
+    max-width: 100%;
+    margin: 0px 0px 1em 0px;
+  }
+
+  .login-heading h2 {
+    font-size: 2em;
+  }
+  .login-form label {
+    font-size: 1em;
+  }
+  .login-form input {
+    font-size: 0.9em;
+  }
+
+  .login-form button {
+    font-size: 0.9em;
+    padding: 0.6em 1em;
+  }
+}

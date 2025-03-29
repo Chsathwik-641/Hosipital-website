@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "./home.css";
 import { NavLink } from "react-router-dom";
 import FloatingButtons from "./FloatingButtons";
+import { AuthContext } from "./AuthContext";
 
 const HospitalPortal = () => {
   const images = [
@@ -15,6 +16,7 @@ const HospitalPortal = () => {
     "/staff.jpg",
   ];
 
+  const { user } = useContext(AuthContext);
   const [currentImage, setCurrentImage] = useState(0);
   const [showConsultForm, setShowConsultForm] = useState(false);
   const [doctors, setDoctors] = useState([]);
@@ -83,7 +85,6 @@ const HospitalPortal = () => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  // Image slider effect
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImage((prev) => (prev + 1) % images.length);
@@ -92,7 +93,6 @@ const HospitalPortal = () => {
     return () => clearInterval(interval);
   }, [images.length]);
 
-  // Fetch available doctors
   useEffect(() => {
     axios
       .get("http://localhost:5000/doctors")
@@ -105,6 +105,10 @@ const HospitalPortal = () => {
   };
 
   const toggleConsultForm = () => {
+    if (!user) {
+      alert("You must be logged in to book a video consultation!");
+      return;
+    }
     setShowConsultForm(true);
     setConsultBooked(false);
   };
@@ -127,7 +131,6 @@ const HospitalPortal = () => {
 
   return (
     <div>
-      {/* Home Welcome Section */}
       <div className="home-welcome">
         <h1>Welcome to HT Hospital</h1>
         <p>
@@ -135,8 +138,6 @@ const HospitalPortal = () => {
           compassionate care. Our dedicated team of doctors is available 24/7.
         </p>
       </div>
-
-      {/* Image Slider */}
       <div className="image-slider">
         <div className="image-container">
           <img
@@ -155,8 +156,6 @@ const HospitalPortal = () => {
           </div>
         </div>
       </div>
-
-      {/* Main Dashboard Sections */}
       <div className="home-container">
         <div className="grid">
           <div className="box">
@@ -204,8 +203,6 @@ const HospitalPortal = () => {
             </div>
           </div>
         </div>
-
-        {/* Video Consultation Form (Popup) */}
         {showConsultForm && (
           <div className="popup">
             <button className="close-btn" onClick={closeConsultForm}>
@@ -248,7 +245,6 @@ const HospitalPortal = () => {
                 <label htmlFor="doctor">
                   Select Doctor<span className="required">*</span> :{" "}
                 </label>
-                {/* Doctor Selection Dropdown */}
                 <select name="doctor" required onChange={handleFormChange}>
                   <option value="">Select a Doctor</option>
                   {doctors.map((doc, index) => (

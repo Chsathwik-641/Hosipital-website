@@ -16,20 +16,17 @@ const Contact = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [isAgreed, setIsAgreed] = useState(false);
-  const [checkboxWarning, setCheckboxWarning] = useState(""); // ⬅️ Warning state
+  const [checkboxWarning, setCheckboxWarning] = useState("");
 
-  // Handle Input Change
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Handle Checkbox Change
   const handleCheckboxChange = (e) => {
     setIsAgreed(e.target.checked);
-    setCheckboxWarning(""); // ⬅️ Remove warning if checkbox is checked
+    setCheckboxWarning("");
   };
 
-  // Handle Form Submission
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsSubmit(true);
@@ -46,8 +43,8 @@ const Contact = () => {
       .post("http://localhost:5000/enquiry", formData)
       .then((response) => {
         setSuccessMessage("✅ Enquiry submitted successfully!");
-        setFormData({ name: "", email: "", phone_number: "", message: "" }); // Clear form
-        setIsAgreed(false); // ⬅️ Uncheck checkbox after submission
+        setFormData({ name: "", email: "", phone_number: "", message: "" });
+        setIsAgreed(false);
       })
       .catch((error) => {
         setErrorMsg(error.response?.data?.error || "Something went wrong.");
@@ -130,7 +127,6 @@ const Contact = () => {
           {checkboxWarning && (
             <p className="warning-message">{checkboxWarning}</p>
           )}{" "}
-          {/* ⬅️ Show warning if checkbox is not checked */}
           <p>
             * By submitting this form, you consent to receive communication from
             HT Hospital via call, WhatsApp, email, and SMS.

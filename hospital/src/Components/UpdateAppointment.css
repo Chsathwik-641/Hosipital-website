@@ -92,7 +92,6 @@
   background: linear-gradient(90deg, #5a6268, #495057);
 }
 
-/* Appointment Details */
 .appointment-details,
 .appointment-edit {
   background: #ffffff;
@@ -200,7 +199,6 @@
   transform: scale(1.07);
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .update-appointment-container,
   .appointment-details {

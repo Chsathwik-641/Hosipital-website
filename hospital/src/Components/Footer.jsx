@@ -18,14 +18,13 @@ const Footer = () => {
           <p>
             <strong>Phone:</strong> XXXXX-XXXXX
           </p>
-          <p>&copy; 2025 Healing Touch Hospital. All rights reserved.</p>
+          <p>&copy; 2025 Chepyala Sathwik. All rights reserved.</p>
         </div>
       </div>
 
       {/* Right Section */}
       <div className="footer-right-section">
         <div className="footer-content">
-          {/* Quick Links - Column Layout */}
           <div className="footer-links">
             <h3>Quick Links</h3>
             <ul className="footer-nav-links">

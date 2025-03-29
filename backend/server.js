@@ -3,14 +3,33 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mysql = require("mysql2");
 const cron = require("node-cron");
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
 
-// Database Connection using Pool
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 60 * 60 * 1000 },
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
+
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -20,19 +39,126 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
 });
+app.get("/", (req, res) => {
+  res.send("Welcome to the Hospital Management System!");
+});
 
-// Test API Route
-app.get("/", (req, res) => res.json({ message: "Backend connected!" }));
+passport.use(
+  new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
+    pool.query(
+      "select * from users where email = ?",
+      [email],
+      (err, results) => {
+        if (err) return done(err);
+        if (results.length === 0)
+          return done(null, false, { message: "no user found" });
+        const user = results[0];
+        bcrypt.compare(password, user.password, (err, isMatch) => {
+          if (err) return done(err);
+          if (isMatch) return done(null, user);
+          return done(null, false, { message: "Incorrect password" });
+        });
+      }
+    );
+  })
+);
 
-// Fetch Doctors List
+passport.serializeUser((user, done) => {
+  console.log("Serializing user:", user);
+  done(null, user.user_id);
+});
+
+passport.deserializeUser((user_id, done) => {
+  console.log("Deserializing user with user_id:", user_id);
+  pool.query(
+    "SELECT * FROM users WHERE user_id = ?",
+    [user_id],
+    (err, results) => {
+      if (err) return done(err);
+      if (!results.length) return done(null, false);
+      return done(null, results[0]);
+    }
+  );
+});
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) return next();
+  res.status(401).json({ message: "Unauthorized: please log in" });
+}
+
+app.post("/register", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    pool.query(
+      "SELECT * FROM users WHERE email = ?",
+      [email],
+      async (err, results) => {
+        if (err) {
+          console.error("Database Select Error:", err);
+          return res.status(500).json({ message: "Database Error" });
+        }
+
+        if (results.length > 0) {
+          return res.status(400).json({ message: "Email already registered" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        pool.query(
+          "INSERT INTO users (email, password) VALUES (?, ?)",
+          [email, hashedPassword],
+          (err, results) => {
+            if (err) {
+              console.error("Database Insert Error:", err);
+              return res.status(500).json({ message: "Database Error" });
+            }
+
+            console.log("User registered successfully, please login", results);
+            return res
+              .status(201)
+              .json({ message: "User registered successfully" });
+          }
+        );
+      }
+    );
+  } catch (error) {
+    console.error("Unexpected Error:", error);
+    return res.status(500).json({ message: "Server error. Please try again." });
+  }
+});
+
+app.post("/login", (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) return next(err);
+    if (!user) return res.status(401).json({ message: info.message });
+
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      res.json({ message: "Login successful", user });
+    });
+  })(req, res, next);
+});
+
+app.post("/logout", (req, res, next) => {
+  req.logOut((err) => {
+    if (err) return next(err);
+    res.json({ message: "Logout successful" });
+  });
+});
+
+app.get("/me", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.json({ user: req.user });
+  } else {
+    res.status(401).json({ message: "Not authenticated" });
+  }
+});
 app.get("/doctors", (req, res) => {
   pool.query("SELECT * FROM doctors", (err, result) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(result);
   });
 });
-
-// Fetch Appointments
 app.get("/appointments/:id", (req, res) => {
   const appointmentId = req.params.id;
   const query = `
@@ -49,13 +175,11 @@ app.get("/appointments/:id", (req, res) => {
     if (err) return res.status(500).json({ error: err.message });
     if (result.length === 0)
       return res.status(404).json({ message: "Appointment not found" });
-    res.json(result[0]); // Return patient and doctor details with the appointment
+    res.json(result[0]);
   });
 });
-
-// ✅ Book Appointment (POST)
-app.post("/appointments", (req, res) => {
-  // 1️⃣ Extract request data
+app.post("/appointments", ensureAuthenticated, (req, res) => {
+  console.log("🔍 Checking req.user:", req.user);
   const {
     first_name,
     last_name,
@@ -68,8 +192,6 @@ app.post("/appointments", (req, res) => {
     appointment_date,
     appointment_time,
   } = req.body;
-
-  // 2️⃣ Validate required fields
   if (
     !first_name ||
     !last_name ||
@@ -84,8 +206,6 @@ app.post("/appointments", (req, res) => {
   ) {
     return res.status(400).json({ error: "All fields are required" });
   }
-
-  // 3️⃣ Check if doctor has reached the appointment limit
   const checkLimitQuery =
     "SELECT COUNT(*) AS count FROM appointments WHERE doctor_id = ? AND appointment_date = ?";
   pool.query(checkLimitQuery, [doctor_id, appointment_date], (err, result) => {
@@ -96,8 +216,6 @@ app.post("/appointments", (req, res) => {
         .status(400)
         .json({ error: "Doctor is fully booked for the day." });
     }
-
-    // 4️⃣ Check if the appointment time is already taken
     const checkExistingQuery =
       "SELECT * FROM appointments WHERE doctor_id = ? AND appointment_date = ? AND appointment_time = ?";
     pool.query(
@@ -111,8 +229,6 @@ app.post("/appointments", (req, res) => {
             .status(400)
             .json({ error: "This time slot is already booked." });
         }
-
-        // 5️⃣ Insert the patient into the database
         const insertPatientQuery =
           "INSERT INTO patients (first_name, last_name, age, gender, contact_number, email, medical_condition, assigned_doctor_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         const patientParams = [
@@ -129,14 +245,12 @@ app.post("/appointments", (req, res) => {
         pool.query(insertPatientQuery, patientParams, (err, result) => {
           if (err) return res.status(500).json({ error: err.message });
 
-          const patient_id = result.insertId; // 🔹 Get patient ID from insert
-          insertAppointment(patient_id); // 🔹 Call function to insert appointment
+          const patient_id = result.insertId;
+          insertAppointment(patient_id);
         });
       }
     );
   });
-
-  // 6️⃣ Function to insert appointment
   function insertAppointment(patient_id) {
     const insertAppointmentQuery =
       "INSERT INTO appointments (patient_id, doctor_id, appointment_date, appointment_time, medical_condition) VALUES (?, ?, ?, ?, ?)";
@@ -151,11 +265,11 @@ app.post("/appointments", (req, res) => {
     pool.query(insertAppointmentQuery, params, (err, result) => {
       if (err) return res.status(500).json({ error: err.message });
 
-      const appointment_id = result.insertId; // 🔹 Get appointment ID from insert
+      const appointment_id = result.insertId;
 
       res.json({
         message: "Appointment booked successfully!",
-        appointment_id, // 🔹 Send appointment ID to frontend
+        appointment_id,
         patient: {
           patient_id,
           first_name,
@@ -172,18 +286,12 @@ app.post("/appointments", (req, res) => {
   }
 });
 
-// ✅ Update Appointment (PUT)
-app.put("/appointments/:id", (req, res) => {
+app.put("/appointments/:id", ensureAuthenticated, (req, res) => {
   const appointmentId = req.params.id;
-  console.log("🔹 Updating Appointment ID:", appointmentId);
-  console.log("🔹 Received Update Data:", req.body); // ✅ Debugging step
-
   const { appointment_date, appointment_time, doctor_id, medical_condition } =
     req.body;
-
-  // ✅ Check for Missing Fields
   if (!appointment_date || !appointment_time || !doctor_id) {
-    console.error("❌ Missing Fields:", {
+    console.error(" Missing Fields:", {
       appointment_date,
       appointment_time,
       doctor_id,
@@ -213,15 +321,11 @@ app.put("/appointments/:id", (req, res) => {
     res.json({ message: "Appointment updated successfully!" });
   });
 });
-
-// ✅ Delete Appointment (DELETE)
 app.delete("/appointments/:id", (req, res) => {
   const { id } = req.params;
 
   if (!id || isNaN(id))
     return res.status(400).json({ error: "Valid appointment ID is required" });
-
-  // 🔹 Get patient_id before deleting the appointment
   const getPatientQuery =
     "SELECT patient_id FROM appointments WHERE appointment_id = ?";
 
@@ -229,17 +333,12 @@ app.delete("/appointments/:id", (req, res) => {
     if (err) return res.status(500).json({ error: err.message });
     if (result.length === 0)
       return res.status(404).json({ error: "Appointment not found" });
-
     const patientId = result[0].patient_id;
-
-    // 🔹 Delete the appointment
     pool.query(
       "DELETE FROM appointments WHERE appointment_id = ?",
       [id],
       (err, deleteResult) => {
         if (err) return res.status(500).json({ error: err.message });
-
-        // 🔹 Check if patient still has any appointments
         pool.query(
           "SELECT COUNT(*) AS count FROM appointments WHERE patient_id = ?",
           [patientId],
@@ -247,7 +346,6 @@ app.delete("/appointments/:id", (req, res) => {
             if (err) return res.status(500).json({ error: err.message });
 
             if (countResult[0].count === 0) {
-              // 🔹 Delete patient if no more appointments exist
               pool.query(
                 "DELETE FROM patients WHERE patient_id = ?",
                 [patientId],
@@ -268,7 +366,7 @@ app.delete("/appointments/:id", (req, res) => {
   });
 });
 
-app.post("/book-consultation", (req, res) => {
+app.post("/book-consultation", ensureAuthenticated, (req, res) => {
   const { name, phone, email, doctor } = req.body;
   const query =
     "INSERT INTO video_consultations (name, phone, email, doctor) VALUES (?, ?, ?, ?)";
@@ -279,7 +377,7 @@ app.post("/book-consultation", (req, res) => {
   });
 });
 
-app.post("/enquiry", (req, res) => {
+app.post("/enquiry", ensureAuthenticated, (req, res) => {
   const { name, email, phone_number, message } = req.body;
 
   if (!name || !email || !phone_number || !message) {
@@ -369,7 +467,7 @@ app.post("/feedback", (req, res) => {
     }
   );
 });
-// Scheduled Cron Job to Update Doctor Statuses
+
 cron.schedule("*/10 * * * *", () => {
   console.log("Running scheduled job...");
   updateDoctorStatuses();

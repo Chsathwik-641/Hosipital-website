@@ -12,7 +12,7 @@ const Appointments = () => {
   const alertPops = useRef(false);
   useEffect(() => {
     if (!user && !alertPops.current) {
-      alert("You must be logged in to seacrh an appointment.");
+      alert("You must be logged in to book/search an appointment.");
       alertPops.current = true;
       navigate("/login");
     }

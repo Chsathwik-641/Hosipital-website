@@ -121,7 +121,9 @@ const HospitalPortal = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:5000/book-consultation", formData)
+      .post("http://localhost:5000/book-consultation", formData, {
+        withCredentials: true,
+      })
       .then(() => {
         setConsultBooked(true);
         setTimeout(() => setShowConsultForm(false), 5000);

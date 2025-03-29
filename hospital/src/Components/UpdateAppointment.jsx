@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "./UpdateAppointment.css";
+import { AuthContext } from "./AuthContext";
 
 const UpdateAppointment = ({ appointment, setSearchedAppointment }) => {
   const [searchData, setSearchData] = useState({
@@ -12,7 +13,7 @@ const UpdateAppointment = ({ appointment, setSearchedAppointment }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(appointment || {});
   const [status, setStatus] = useState("");
-  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
   const handleSearchInputChange = (e) => {
     setSearchData({ ...searchData, [e.target.name]: e.target.value });
@@ -52,7 +53,8 @@ const UpdateAppointment = ({ appointment, setSearchedAppointment }) => {
           appointment_time: formData.appointment_time,
           doctor_id: formData.doctor_id,
           status: formData.status,
-        }
+        },
+        { withCredentials: true }
       );
       setStatus("updated");
     } catch (error) {

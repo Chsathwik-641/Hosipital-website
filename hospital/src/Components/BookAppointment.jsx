@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import "./BookAppointment.css";
+import { AuthContext } from "./AuthContext";
 
 const BookAppointment = () => {
   const [doctors, setDoctors] = useState([]);
@@ -11,6 +12,7 @@ const BookAppointment = () => {
   const [showModal, setShowModal] = useState(false);
   const [appointmentId, setAppointmentId] = useState(null);
   const [showDoctorList, setShowDoctorList] = useState(false);
+  const { user } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     first_name: "",
@@ -30,6 +32,11 @@ const BookAppointment = () => {
   useEffect(() => {
     fetchDoctors();
   }, []);
+  // useEffect(() => {
+  //   if (!user) {
+  //     console.warn("User is not logged in.");
+  //   }
+  // }, [user]);
 
   const fetchDoctors = async () => {
     try {
@@ -97,7 +104,8 @@ const BookAppointment = () => {
     try {
       const response = await axios.post(
         "http://localhost:5000/appointments",
-        updatedFormData
+        updatedFormData,
+        { withCredentials: true }
       );
 
       if (response.data.appointment_id) {

@@ -8,7 +8,6 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 const env = require("dotenv");
-require("dotenv").config();
 
 const app = express();
 app.use(express.json());

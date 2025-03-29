@@ -69,15 +69,19 @@
   font-size: 0.9em;
 }
 @media (max-width: 968px) {
+  .doctors-container {
+    padding: 0.5em;
+  }
   .doctors-container h2 {
     font-size: 2.7em;
   }
-  .search-container {
-    max-width: 100%;
+  .doctor-search {
+    margin: 1 auto;
+    padding: 0;
+    max-width: 90%;
   }
   .search-input {
-    padding: 10px;
-    font-size: 0.9em;
+    font-size: 0.8em;
   }
   .doctors-list {
     flex-direction: column;
@@ -92,5 +96,10 @@
   }
   .doctors-list .home-btn {
     font-size: 0.8em;
+  }
+  .doctors-list .not-found {
+    font-size: 2.5em;
+    padding: 0.5em;
+    text-align: center;
   }
 }
